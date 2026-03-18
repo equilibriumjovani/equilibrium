@@ -5,9 +5,9 @@ export const clientSchema = z.object({
   phone:             z.string().min(8, "Numéro de téléphone invalide"),
   email:             z.string().email("Email invalide").optional().or(z.literal("")),
   joining_date:      z.string().min(1, "Date d'inscription requise"),
-  sessions_per_week: z.coerce.number().refine((v) => v === 3 || v === 4, {
-    message: "Choisir 3 ou 4 séances",
-  }) as z.ZodType<3 | 4>,
+  sessions_per_week: z.coerce.number()
+    .transform((v) => v as 3 | 4)
+    .pipe(z.union([z.literal(3), z.literal(4)])),
   monthly_price:     z.coerce.number().min(1, "Tarif mensuel requis"),
   notes:             z.string().optional(),
 });
