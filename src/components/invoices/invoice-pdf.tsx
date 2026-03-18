@@ -178,15 +178,15 @@ const styles = StyleSheet.create({
 });
 
 interface InvoicePDFProps {
-  invoice: Invoice & {
-    clients?:  { full_name: string; phone: string; email?: string };
-    payments?: {
-      payment_date: string;
-      period_start: string;
-      period_end:   string;
-      notes?:       string;
-    };
+  invoice: Omit<Invoice, "payments"> & {
+  clients?:  { full_name: string; phone: string; email?: string };
+  payments?: {
+    payment_date: string;
+    period_start: string;
+    period_end:   string;
+    notes?:       string;
   };
+};
   logoBase64?: string;
 }
 

@@ -14,6 +14,9 @@ import { MONTHS_FR } from "@/lib/constants";
 interface SessionsGridProps {
   client: Client;
 }
+interface SimpleSlot {
+  sessionNumber: number;
+}
 
 export default function SessionsGrid({ client }: SessionsGridProps) {
   const today = new Date();
@@ -24,7 +27,7 @@ export default function SessionsGrid({ client }: SessionsGridProps) {
 } = useSessions(client.id, today.getMonth() + 1, today.getFullYear());
 
   // Generate all session slots for this month
- const slots = useMemo(() => {
+ const slots = useMemo<SimpleSlot[]>(() => {
   const count = client.sessions_per_week === 3 ? 12 : 16;
   return Array.from({ length: count }, (_, i) => ({
     sessionNumber: i + 1,

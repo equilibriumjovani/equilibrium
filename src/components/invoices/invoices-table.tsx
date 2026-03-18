@@ -12,7 +12,7 @@ import InvoiceViewModal from "./invoice-view-modal";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import type { Invoice } from "@/types";
 
-interface FullInvoice extends Invoice {
+type FullInvoice = Omit<Invoice, "payments"> & {
   clients?:  { full_name: string; phone: string; email?: string };
   payments?: {
     payment_date: string;
@@ -20,7 +20,7 @@ interface FullInvoice extends Invoice {
     period_end:   string;
     notes?:       string;
   };
-}
+};
 
 interface InvoicesTableProps {
   clientId?: string;

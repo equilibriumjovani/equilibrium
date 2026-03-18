@@ -11,15 +11,15 @@ import { GYM_INFO } from "@/lib/constants";
 import type { Invoice } from "@/types";
 
 interface InvoiceViewModalProps {
-  invoice: Invoice & {
-    clients?:  { full_name: string; phone: string; email?: string };
-    payments?: {
-      payment_date: string;
-      period_start: string;
-      period_end:   string;
-      notes?:       string;
-    };
+ invoice: Omit<Invoice, "payments"> & {
+  clients?:  { full_name: string; phone: string; email?: string };
+  payments?: {
+    payment_date: string;
+    period_start: string;
+    period_end:   string;
+    notes?:       string;
   };
+};
   logoBase64?: string;
   onClose:     () => void;
   onEmailSent: () => void;

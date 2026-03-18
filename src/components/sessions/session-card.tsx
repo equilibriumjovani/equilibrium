@@ -3,11 +3,15 @@
 import { useState, useEffect } from "react";
 import { Check, Save, Loader2, Trash2 } from "lucide-react";
 import type { Session } from "@/types";
-import type { SessionSlot } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
+// Type local simplifié — plus besoin de date pré-calculée
+interface SimpleSlot {
+  sessionNumber: number;
+}
+
 interface SessionCardProps {
-  slot:        SessionSlot;
+  slot:        SimpleSlot;
   saved?:      Session;
   isSaving:    boolean;
   isDeleting:  boolean;
@@ -20,7 +24,6 @@ export default function SessionCard({
 }: SessionCardProps) {
   const isDone = !!saved?.is_completed;
 
-  // Date field — prefill with saved date or empty
   const [date,        setDate]        = useState(saved?.session_date ?? "");
   const [description, setDescription] = useState(saved?.description  ?? "");
 
@@ -30,7 +33,7 @@ export default function SessionCard({
   }, [saved]);
 
   function handleSave() {
-    if (!date) return; // date required
+    if (!date) return;
     onSave(slot.sessionNumber, date, description);
   }
 
@@ -42,7 +45,7 @@ export default function SessionCard({
         : "bg-white border-gray-100 hover:border-gray-200 hover:shadow-sm"
     )}>
 
-      {/* Header row */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <span className={cn(
           "text-[10px] font-bold uppercase tracking-wider",
@@ -57,7 +60,6 @@ export default function SessionCard({
               <Check className="w-3 h-3 text-white" strokeWidth={3} />
             </div>
           )}
-          {/* Delete button — only shown if session is saved */}
           {isDone && saved && (
             <button
               onClick={() => onDelete(saved.id, slot.sessionNumber)}
@@ -74,7 +76,7 @@ export default function SessionCard({
         </div>
       </div>
 
-      {/* Date picker — owner chooses freely */}
+      {/* Date picker */}
       <div className="flex flex-col gap-1">
         <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
           Date de la séance
@@ -91,9 +93,7 @@ export default function SessionCard({
           )}
         />
         {!date && (
-          <p className="text-[10px] text-red-400">
-            Date requise pour enregistrer
-          </p>
+          <p className="text-[10px] text-red-400">Date requise pour enregistrer</p>
         )}
       </div>
 
